@@ -276,6 +276,18 @@ agentic-ai-java-cohort/
 │           ├── LlmCallSpringaiApplication.java
 │           └── web/ChatController.java  # /api/ask, /api/chat, /api/metadata
 │
+├── 📁 Response Streaming in Java 26-10-2026/
+│   ├── streamingcorejava/               # Plain Java: streaming with the OpenAI Java SDK
+│   │   └── src/main/java/telusko/corejava/
+│   │       ├── LaunchStremvsBlock.java              # Blocking vs streaming: time to first word
+│   │       ├── LaunchChatCompletionStreamDemo.java  # Chat Completions streaming, chunk by chunk
+│   │       └── LaunchResponseStream.java            # Responses API streaming + token usage on completion
+│   │
+│   └── llm-call-springai/               # Spring AI 2.0: maxCompletionTokens and finish reason
+│       └── src/main/java/com/telusko/llm_call_springai/
+│           ├── LlmCallSpringaiApplication.java
+│           └── web/ChatController.java  # /api/ask, /api/chat, /api/metadata (+ finishReason)
+│
 ├── 📄 .gitignore
 └── 📄 README.md
 ```
@@ -284,6 +296,7 @@ agentic-ai-java-cohort/
 |:--|:-------------|:---------------|
 | 1 | `First Java Program with AI 21-10-2026` | The first AI call from Java, three ways: raw `HttpClient`, the OpenAI Java SDK and LangChain4j |
 | 2 | `Chat API Deep Dive Roles, Parameters and Token Usage 22-10-2026` | Chat Completions, message roles, model parameters (temperature, max tokens) and token usage, in plain Java, LangChain4j and Spring AI |
+| 3 | `Response Streaming in Java 26-10-2026` | Streaming responses with the OpenAI Java SDK (Chat Completions and Responses API), blocking vs streaming latency, token usage from the completed event, and `finishReason` with `maxCompletionTokens` in Spring AI |
 
 > 📌 **A new folder is added after every class** as the course moves through memory, RAG, tool calling, MCP, agent design, LangChain4j, Spring AI and Google ADK.
 

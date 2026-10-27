@@ -29,6 +29,9 @@ out/
 application-local.properties
 *.key
 
+# Local backups
+*.zip
+
 # OS / misc
 .DS_Store
 Thumbs.db
