@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.telusko</groupId>
+  <artifactId>structuredoutputjava</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>structuredoutputjava</name>
+  
+     
+<properties>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+     <langchain4j.version>1.22.0</langchain4j.version>
+
+</properties>
+<dependencies>
+        <!-- https://docs.langchain4j.dev/integrations/language-models/open-ai -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-open-ai</artifactId>
+            <version>${langchain4j.version}</version>
+        </dependency>
+
+        <!-- High level API (AiServices) -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j</artifactId>
+            <version>${langchain4j.version}</version>
+        </dependency>
+    </dependencies>
+  
+</project>

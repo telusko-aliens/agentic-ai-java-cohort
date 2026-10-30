@@ -288,6 +288,40 @@ agentic-ai-java-cohort/
 │           ├── LlmCallSpringaiApplication.java
 │           └── web/ChatController.java  # /api/ask, /api/chat, /api/metadata (+ finishReason)
 │
+├── 📁 Structured Outputs in Java 28-10-2026/
+│   ├── structuredoutputjava/            # Plain Java: structured outputs with the OpenAI Java SDK
+│   │   └── src/main/java/structuredoutputjava/
+│   │       ├── PromptOnlyJsonDemo.java  # Asking for JSON in the prompt only, then mapping with Jackson
+│   │       ├── JavaMappingJson.java     # responseFormat(LeaveRequest.class): JSON schema from a record
+│   │       ├── BusinessRules.java       # Model extracts, Java validates (LeaveRules)
+│   │       ├── WhenNotMapping.java      # Cut-off answers (finish reason LENGTH) and retry with the error
+│   │       ├── LeaveRequest.java        # Record with @JsonPropertyDescription for each field
+│   │       ├── LeaveType.java           # Enum restricts allowed values: SICK, CASUAL, EARNED
+│   │       ├── LeaveRules.java          # Plain Java business rules (dates, max days)
+│   │       └── Emails.java              # Sample leave emails used as input
+│   │
+│   └── streaming-springai2/             # Spring AI 2.0: streaming with Flux (recap of 26 Oct)
+│       └── src/main/java/com/telusko/llm_call_springai/
+│           ├── LlmCallSpringaiApplication.java
+│           └── web/StreamingController.java  # /full-block, /stream, /stream-usage
+│
+├── 📁 Structured Outputs with Spring AI and LangChain4j 29-10-2026/
+│   ├── structuredoutput-springai/       # Spring AI 2.0: .entity(LeaveRequest.class)
+│   │   └── src/main/java/com/telusko/llm_call_springai/
+│   │       ├── PromptOnlyController.java   # POST /leave/prompt-only (JSON from the prompt only)
+│   │       ├── LeaveRulesControllers.java  # POST /leave/rules (entity mapping + business rules)
+│   │       ├── LeaveDecision.java          # Response: leave + accepted + problems
+│   │       └── LeaveRequest.java, LeaveType.java, LeaveRules.java
+│   │
+│   └── structuredoutputlc4j/            # LangChain4j: AI Services returning a Java record
+│       └── src/main/java/structuredoutputlc4j/
+│           ├── PromptOnlyJson.java      # JSON from the prompt only, then mapping with Jackson
+│           ├── AiServiceMapping.java    # AiServices + RESPONSE_FORMAT_JSON_SCHEMA + strictJsonSchema
+│           ├── LeaveAssistant.java      # AI Service interface returning LeaveRequest
+│           ├── BusinessRules.java       # Model extracts, Java validates
+│           ├── WhenNotMapping.java      # OutputParsingException and retry with the error
+│           └── util/                    # LeaveRequest, LeaveType, LeaveRules, Emails
+│
 ├── 📄 .gitignore
 └── 📄 README.md
 ```
@@ -297,6 +331,8 @@ agentic-ai-java-cohort/
 | 1 | `First Java Program with AI 21-10-2026` | The first AI call from Java, three ways: raw `HttpClient`, the OpenAI Java SDK and LangChain4j |
 | 2 | `Chat API Deep Dive Roles, Parameters and Token Usage 22-10-2026` | Chat Completions, message roles, model parameters (temperature, max tokens) and token usage, in plain Java, LangChain4j and Spring AI |
 | 3 | `Response Streaming in Java 26-10-2026` | Streaming responses with the OpenAI Java SDK (Chat Completions and Responses API), blocking vs streaming latency, token usage from the completed event, and `finishReason` with `maxCompletionTokens` in Spring AI |
+| 4 | `Structured Outputs in Java 28-10-2026` | Structured outputs with the OpenAI Java SDK: prompt-only JSON vs `responseFormat(Class)`, records and enums as the schema, validating with business rules in Java, handling cut-off answers and retrying with the error. Also Spring AI streaming with `Flux` and stream usage |
+| 5 | `Structured Outputs with Spring AI and LangChain4j 29-10-2026` | The same leave-request extraction in Spring AI (`.entity(Class)`) and LangChain4j (AI Services with a JSON schema), plus business rules and failure handling |
 
 > 📌 **A new folder is added after every class** as the course moves through memory, RAG, tool calling, MCP, agent design, LangChain4j, Spring AI and Google ADK.
 
