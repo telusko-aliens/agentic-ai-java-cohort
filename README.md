@@ -288,6 +288,15 @@ agentic-ai-java-cohort/
 │           ├── LlmCallSpringaiApplication.java
 │           └── web/ChatController.java  # /api/ask, /api/chat, /api/metadata (+ finishReason)
 │
+├── 📁 Response Streaming in Java (Part-2) 27-10-2026/
+│   ├── streamingcorejava/               # Same as 26 Oct (recap), kept so this class runs on its own
+│   │
+│   └── streaminglc4j/                   # LangChain4j: streaming with OpenAiStreamingChatModel
+│       └── src/main/java/telusko/lc4j/
+│           ├── LaunchBlockStreaming.java      # Blocking vs streaming: time to first word
+│           ├── LaunchStreamFullResponse.java  # Full answer, finish reason and token usage on complete
+│           └── LaunchStreamError.java         # Stream breaks mid-answer: cancel, then continue from where it stopped
+│
 ├── 📁 Structured Outputs in Java 28-10-2026/
 │   ├── structuredoutputjava/            # Plain Java: structured outputs with the OpenAI Java SDK
 │   │   └── src/main/java/structuredoutputjava/
@@ -322,6 +331,19 @@ agentic-ai-java-cohort/
 │           ├── WhenNotMapping.java      # OutputParsingException and retry with the error
 │           └── util/                    # LeaveRequest, LeaveType, LeaveRules, Emails
 │
+├── 📁 Retries, Timeouts and Rate Limits in Java 02-11-2026/
+│   ├── retryratelimitlc4j/              # LangChain4j: timeouts, retries and rate-limit headers
+│   │   └── src/main/java/telusko/lc4j/
+│   │       ├── WhichErrorToRetry.java   # RetriableException vs NonRetriableException (wrong key, wrong model, timeout)
+│   │       ├── TimeoutAndRetry.java     # timeout() with maxRetries(0) vs maxRetries(2)
+│   │       └── RateLimit.java           # Reading x-ratelimit-* headers from the raw HTTP response
+│   │
+│   └── ratelimitretry-springai2/        # Spring AI 2.0: the same ideas in a Spring Boot app
+│       ├── src/main/java/com/telusko/llm_call_springai/
+│       │   ├── ReliablityController.java  # /wrongModel, /timeout, /rate-limit
+│       │   └── ErrorRules.java            # Which OpenAI exceptions are worth retrying
+│       └── src/main/resources/application.properties  # spring.ai.openai.timeout and max-retries
+│
 ├── 📄 .gitignore
 └── 📄 README.md
 ```
@@ -331,8 +353,10 @@ agentic-ai-java-cohort/
 | 1 | `First Java Program with AI 21-10-2026` | The first AI call from Java, three ways: raw `HttpClient`, the OpenAI Java SDK and LangChain4j |
 | 2 | `Chat API Deep Dive Roles, Parameters and Token Usage 22-10-2026` | Chat Completions, message roles, model parameters (temperature, max tokens) and token usage, in plain Java, LangChain4j and Spring AI |
 | 3 | `Response Streaming in Java 26-10-2026` | Streaming responses with the OpenAI Java SDK (Chat Completions and Responses API), blocking vs streaming latency, token usage from the completed event, and `finishReason` with `maxCompletionTokens` in Spring AI |
-| 4 | `Structured Outputs in Java 28-10-2026` | Structured outputs with the OpenAI Java SDK: prompt-only JSON vs `responseFormat(Class)`, records and enums as the schema, validating with business rules in Java, handling cut-off answers and retrying with the error. Also Spring AI streaming with `Flux` and stream usage |
-| 5 | `Structured Outputs with Spring AI and LangChain4j 29-10-2026` | The same leave-request extraction in Spring AI (`.entity(Class)`) and LangChain4j (AI Services with a JSON schema), plus business rules and failure handling |
+| 4 | `Response Streaming in Java (Part-2) 27-10-2026` | Streaming in LangChain4j with `StreamingChatResponseHandler`: blocking vs streaming, final response with finish reason and token usage, and recovering when a stream breaks mid-answer |
+| 5 | `Structured Outputs in Java 28-10-2026` | Structured outputs with the OpenAI Java SDK: prompt-only JSON vs `responseFormat(Class)`, records and enums as the schema, validating with business rules in Java, handling cut-off answers and retrying with the error. Also Spring AI streaming with `Flux` and stream usage |
+| 6 | `Structured Outputs with Spring AI and LangChain4j 29-10-2026` | The same leave-request extraction in Spring AI (`.entity(Class)`) and LangChain4j (AI Services with a JSON schema), plus business rules and failure handling |
+| 7 | `Retries, Timeouts and Rate Limits in Java 02-11-2026` | Which errors to retry and which to fix, timeouts with and without retries, and reading rate-limit headers, in LangChain4j and Spring AI |
 
 > 📌 **A new folder is added after every class** as the course moves through memory, RAG, tool calling, MCP, agent design, LangChain4j, Spring AI and Google ADK.
 
