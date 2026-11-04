@@ -344,6 +344,16 @@ agentic-ai-java-cohort/
 │       │   └── ErrorRules.java            # Which OpenAI exceptions are worth retrying
 │       └── src/main/resources/application.properties  # spring.ai.openai.timeout and max-retries
 │
+├── 📁 OpenAI Java SDK and LangChain4j with Spring Boot 03-11-2026/
+│   └── springboot-sdk+lc4j/             # One Spring Boot app using the OpenAI Java SDK and LangChain4j directly
+│       ├── src/main/java/com/telusko/llm_call_springai/
+│       │   ├── config/AiConfig.java                 # OpenAIClient and LangChain4j ChatModel as Spring beans
+│       │   ├── controller/OpenAiController.java     # /api/openai/chat, /explain, /metadata
+│       │   ├── controller/Lc4jOpenAIController.java # /api/lc4j/chat (GET + POST), /explain, /chat/aiservice, /explain/aiservice
+│       │   ├── assistant/JavaAssistant.java         # @AiService interface (langchain4j-spring-boot4-starter)
+│       │   └── dto/ChatRequest.java                 # Request body for POST /api/lc4j/chat
+│       └── src/main/resources/application.properties  # openai.api.key=${OPENAI_API_KEY}, openai.model
+│
 ├── 📄 .gitignore
 └── 📄 README.md
 ```
@@ -357,6 +367,7 @@ agentic-ai-java-cohort/
 | 5 | `Structured Outputs in Java 28-10-2026` | Structured outputs with the OpenAI Java SDK: prompt-only JSON vs `responseFormat(Class)`, records and enums as the schema, validating with business rules in Java, handling cut-off answers and retrying with the error. Also Spring AI streaming with `Flux` and stream usage |
 | 6 | `Structured Outputs with Spring AI and LangChain4j 29-10-2026` | The same leave-request extraction in Spring AI (`.entity(Class)`) and LangChain4j (AI Services with a JSON schema), plus business rules and failure handling |
 | 7 | `Retries, Timeouts and Rate Limits in Java 02-11-2026` | Which errors to retry and which to fix, timeouts with and without retries, and reading rate-limit headers, in LangChain4j and Spring AI |
+| 8 | `OpenAI Java SDK and LangChain4j with Spring Boot 03-11-2026` | Using the OpenAI Java SDK and LangChain4j inside Spring Boot without Spring AI: clients as beans from `@Configuration`, REST endpoints for both, and LangChain4j AI Services with `@AiService` |
 
 > 📌 **A new folder is added after every class** as the course moves through memory, RAG, tool calling, MCP, agent design, LangChain4j, Spring AI and Google ADK.
 
