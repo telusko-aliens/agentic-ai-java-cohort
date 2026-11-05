@@ -354,6 +354,17 @@ agentic-ai-java-cohort/
 │       │   └── dto/ChatRequest.java                 # Request body for POST /api/lc4j/chat
 │       └── src/main/resources/application.properties  # openai.api.key=${OPENAI_API_KEY}, openai.model
 │
+├── 📁 Running Local Models with Ollama LangChain4j and Spring AI 04-11-2026/
+│   ├── ollamalc4j/                      # LangChain4j: OllamaChatModel against a local Mistral model
+│   │   └── src/main/java/ollamalc4j/ollama/
+│   │       ├── LaunchOllama.java        # Plain chat and system + user messages, with time taken and token usage
+│   │       └── OpenAivsOllama.java      # Same question to OpenAI (cloud) and Mistral (local) through one ChatModel interface
+│   │
+│   └── ollamaspringai/                  # Spring AI 2.0: spring-ai-starter-model-ollama
+│       ├── src/main/java/com/telusko/llm_call_springai/
+│       │   └── controller/ChatController.java  # /chat, /trainer, /stream (+ common ollama CLI commands)
+│       └── src/main/resources/application.properties  # spring.ai.ollama.base-url and chat.model (no API key)
+│
 ├── 📄 .gitignore
 └── 📄 README.md
 ```
@@ -368,6 +379,7 @@ agentic-ai-java-cohort/
 | 6 | `Structured Outputs with Spring AI and LangChain4j 29-10-2026` | The same leave-request extraction in Spring AI (`.entity(Class)`) and LangChain4j (AI Services with a JSON schema), plus business rules and failure handling |
 | 7 | `Retries, Timeouts and Rate Limits in Java 02-11-2026` | Which errors to retry and which to fix, timeouts with and without retries, and reading rate-limit headers, in LangChain4j and Spring AI |
 | 8 | `OpenAI Java SDK and LangChain4j with Spring Boot 03-11-2026` | Using the OpenAI Java SDK and LangChain4j inside Spring Boot without Spring AI: clients as beans from `@Configuration`, REST endpoints for both, and LangChain4j AI Services with `@AiService` |
+| 9 | `Running Local Models with Ollama LangChain4j and Spring AI 04-11-2026` | Running an open model (Mistral) on your own machine with Ollama, calling it from LangChain4j (`OllamaChatModel`) and Spring AI (`OllamaChatModel` + `ChatClient`, including streaming), and comparing it with OpenAI behind the same `ChatModel` interface |
 
 > 📌 **A new folder is added after every class** as the course moves through memory, RAG, tool calling, MCP, agent design, LangChain4j, Spring AI and Google ADK.
 
@@ -436,6 +448,7 @@ export OPENAI_API_KEY="sk-your-key-here"
 
 - Get an OpenAI key from **https://platform.openai.com/api-keys**
 - The Spring AI project picks it up through `spring.ai.openai.api-key=${OPENAI_API_KEY}`
+- The Ollama class (04 Nov) runs the model locally and needs **no key**: install Ollama from **https://ollama.com/download**, run `ollama pull mistral`, and keep Ollama running on `http://localhost:11434`. Only `OpenAivsOllama` still needs `OPENAI_API_KEY`, for the cloud side of the comparison
 - ⚠️ **Never** share or push your API key, and never hardcode it inside a `.java` or `.properties` file
 
 ---
