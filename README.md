@@ -365,6 +365,12 @@ agentic-ai-java-cohort/
 │       │   └── controller/ChatController.java  # /chat, /trainer, /stream (+ common ollama CLI commands)
 │       └── src/main/resources/application.properties  # spring.ai.ollama.base-url and chat.model (no API key)
 │
+├── 📁 AI Fundamentals (Pending Topics) 05-11-2026/
+│   └── springboot-sdk+lc4j/             # The 3 Nov app, extended with prompt templates
+│       └── src/main/java/com/telusko/llm_call_springai/
+│           ├── controller/Lc4jOpenAIController.java # + /api/lc4j/chat-pt?topic=&level=&lines= (PromptTemplate version kept as comments)
+│           └── assistant/JavaAssistant.java         # + pt(): {{topic}}, {{level}}, {{lines}} filled with @V
+│
 ├── 📄 .gitignore
 └── 📄 README.md
 ```
@@ -380,6 +386,7 @@ agentic-ai-java-cohort/
 | 7 | `Retries, Timeouts and Rate Limits in Java 02-11-2026` | Which errors to retry and which to fix, timeouts with and without retries, and reading rate-limit headers, in LangChain4j and Spring AI |
 | 8 | `OpenAI Java SDK and LangChain4j with Spring Boot 03-11-2026` | Using the OpenAI Java SDK and LangChain4j inside Spring Boot without Spring AI: clients as beans from `@Configuration`, REST endpoints for both, and LangChain4j AI Services with `@AiService` |
 | 9 | `Running Local Models with Ollama LangChain4j and Spring AI 04-11-2026` | Running an open model (Mistral) on your own machine with Ollama, calling it from LangChain4j (`OllamaChatModel`) and Spring AI (`OllamaChatModel` + `ChatClient`, including streaming), and comparing it with OpenAI behind the same `ChatModel` interface |
+| 10 | `AI Fundamentals (Pending Topics) 05-11-2026` | Prompt templates in LangChain4j: filling `{{variables}}` with `PromptTemplate.apply(Map)`, then the same prompt as an `@AiService` method with `@V` parameters, exposed as `/api/lc4j/chat-pt` |
 
 > 📌 **A new folder is added after every class** as the course moves through memory, RAG, tool calling, MCP, agent design, LangChain4j, Spring AI and Google ADK.
 
