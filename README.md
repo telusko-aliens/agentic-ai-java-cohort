@@ -371,6 +371,13 @@ agentic-ai-java-cohort/
 │           ├── controller/Lc4jOpenAIController.java # + /api/lc4j/chat-pt?topic=&level=&lines= (PromptTemplate version kept as comments)
 │           └── assistant/JavaAssistant.java         # + pt(): {{topic}}, {{level}}, {{lines}} filled with @V
 │
+├── 📁 Tool Calling with LangChain4j 10-11-2026/
+│   └── lc4j-toolcalling/                # LangChain4j: tool calling done by hand, step by step
+│       └── src/main/java/com/telusko/
+│           ├── Main.java                # Send tool specs, read the model's tool requests, run the tools, send results back for the final answer
+│           ├── tools/CourseTools.java   # @Tool methods: getCoursePrice, getCourseDuration
+│           └── CourseAssistant.java     # AI Service interface for the AiServices.tools(...) version (kept as comments in Main)
+│
 ├── 📄 .gitignore
 └── 📄 README.md
 ```
@@ -387,6 +394,7 @@ agentic-ai-java-cohort/
 | 8 | `OpenAI Java SDK and LangChain4j with Spring Boot 03-11-2026` | Using the OpenAI Java SDK and LangChain4j inside Spring Boot without Spring AI: clients as beans from `@Configuration`, REST endpoints for both, and LangChain4j AI Services with `@AiService` |
 | 9 | `Running Local Models with Ollama LangChain4j and Spring AI 04-11-2026` | Running an open model (Mistral) on your own machine with Ollama, calling it from LangChain4j (`OllamaChatModel`) and Spring AI (`OllamaChatModel` + `ChatClient`, including streaming), and comparing it with OpenAI behind the same `ChatModel` interface |
 | 10 | `AI Fundamentals (Pending Topics) 05-11-2026` | Prompt templates in LangChain4j: filling `{{variables}}` with `PromptTemplate.apply(Map)`, then the same prompt as an `@AiService` method with `@V` parameters, exposed as `/api/lc4j/chat-pt` |
+| 11 | `Tool Calling with LangChain4j 10-11-2026` | Tool calling in LangChain4j: `@Tool` methods turned into `ToolSpecification`s, reading `ToolExecutionRequest`s from the model, running the Java method yourself, sending back `ToolExecutionResultMessage`s for the final answer, and how `AiServices` does the same loop for you |
 
 > 📌 **A new folder is added after every class** as the course moves through memory, RAG, tool calling, MCP, agent design, LangChain4j, Spring AI and Google ADK.
 
