@@ -378,6 +378,21 @@ agentic-ai-java-cohort/
 │           ├── tools/CourseTools.java   # @Tool methods: getCoursePrice, getCourseDuration
 │           └── CourseAssistant.java     # AI Service interface for the AiServices.tools(...) version (kept as comments in Main)
 │
+├── 📁 Tool Calling with LangChain4j (part -2) 11-11-2026/
+│   ├── lc4j-toolcalling/                # The 10 Nov project (recap), plus a date-time tool
+│   │   └── src/main/java/com/telusko/
+│   │       ├── LaunchMainTool2.java     # AiServices.builder(...).tools(...) does the whole tool loop for you
+│   │       ├── tools/DateTimeTools.java # @Tool + @P: current date and time for a city or postal code
+│   │       └── aiservice/DateTimeAssistant.java  # AI Service with a "never guess the time" system message
+│   │
+│   └── datetime-lc4j-springboot4/       # The same date-time tool inside a Spring Boot 4 app
+│       ├── src/main/java/com/telusko/
+│       │   ├── config/AiConfig.java     # OpenAiChatModel, DateTimeTools and DateTimeAssistant as beans (AiServices.builder)
+│       │   ├── controller/DateTimeController.java  # /api/datetime/time?question=
+│       │   ├── tools/DateTimeTools.java
+│       │   └── DateTimeAssistant.java
+│       └── src/main/resources/application.properties  # openai.api.key=${OPENAI_API_KEY}
+│
 ├── 📄 .gitignore
 └── 📄 README.md
 ```
@@ -395,6 +410,7 @@ agentic-ai-java-cohort/
 | 9 | `Running Local Models with Ollama LangChain4j and Spring AI 04-11-2026` | Running an open model (Mistral) on your own machine with Ollama, calling it from LangChain4j (`OllamaChatModel`) and Spring AI (`OllamaChatModel` + `ChatClient`, including streaming), and comparing it with OpenAI behind the same `ChatModel` interface |
 | 10 | `AI Fundamentals (Pending Topics) 05-11-2026` | Prompt templates in LangChain4j: filling `{{variables}}` with `PromptTemplate.apply(Map)`, then the same prompt as an `@AiService` method with `@V` parameters, exposed as `/api/lc4j/chat-pt` |
 | 11 | `Tool Calling with LangChain4j 10-11-2026` | Tool calling in LangChain4j: `@Tool` methods turned into `ToolSpecification`s, reading `ToolExecutionRequest`s from the model, running the Java method yourself, sending back `ToolExecutionResultMessage`s for the final answer, and how `AiServices` does the same loop for you |
+| 12 | `Tool Calling with LangChain4j (part -2) 11-11-2026` | Letting `AiServices` run the tool loop: a date-time tool with `@Tool` and `@P` so the model never guesses the current time, first in plain Java and then in a Spring Boot 4 app with the AI Service as a bean behind a REST endpoint |
 
 > 📌 **A new folder is added after every class** as the course moves through memory, RAG, tool calling, MCP, agent design, LangChain4j, Spring AI and Google ADK.
 
