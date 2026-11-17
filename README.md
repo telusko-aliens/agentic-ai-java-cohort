@@ -399,6 +399,18 @@ agentic-ai-java-cohort/
 │           ├── Main.java                # StdioMcpTransport (npx server-filesystem --read-only), listTools(), McpToolProvider into AiServices
 │           └── FileAssistant.java       # AI Service: use the filesystem tools, never invent file contents
 │
+├── 📁 MCP with LangChain4j (part -2) 16-11-2026/
+│   ├── custom-mcpserver/                # Your own MCP server in plain Java (MCP Java SDK, stdio), built as a runnable jar
+│   │   └── src/main/java/com/telusko/
+│   │       ├── Main.java                # McpServer.sync(...) with 3 tools: listCourses, getCoursePrice, getCourseDuration (JSON input schemas)
+│   │       └── services/CourseServices.java  # The plain Java methods the tools call
+│   │
+│   └── mcp-filesystem-starter/          # The 12 Nov client, now pointed at the custom server
+│       └── src/main/java/com/telusko/mcp/
+│           ├── Main.java                # StdioMcpTransport runs "java -jar ../custom-mcpserver/target/...jar" (filesystem server kept as comments)
+│           ├── CourseAssistant.java     # AI Service that answers course questions using the MCP tools
+│           └── FileAssistant.java       # From 12 Nov
+│
 ├── 📄 .gitignore
 └── 📄 README.md
 ```
@@ -418,6 +430,7 @@ agentic-ai-java-cohort/
 | 11 | `Tool Calling with LangChain4j 10-11-2026` | Tool calling in LangChain4j: `@Tool` methods turned into `ToolSpecification`s, reading `ToolExecutionRequest`s from the model, running the Java method yourself, sending back `ToolExecutionResultMessage`s for the final answer, and how `AiServices` does the same loop for you |
 | 12 | `Tool Calling with LangChain4j (part -2) 11-11-2026` | Letting `AiServices` run the tool loop: a date-time tool with `@Tool` and `@P` so the model never guesses the current time, first in plain Java and then in a Spring Boot 4 app with the AI Service as a bean behind a REST endpoint |
 | 13 | `MCP with LangChain4j 12-11-2026` | Using an existing MCP server from Java: starting the filesystem MCP server over stdio, listing the tools it exposes, and handing them to an AI Service through `McpToolProvider` so the model can read local files |
+| 14 | `MCP with LangChain4j (part -2) 16-11-2026` | Building your own MCP server in Java with the MCP Java SDK: defining tools with JSON input schemas, returning `CallToolResult`, packaging it as a jar, and connecting to it from the LangChain4j client so an AI Service can answer course questions through it |
 
 > 📌 **A new folder is added after every class** as the course moves through memory, RAG, tool calling, MCP, agent design, LangChain4j, Spring AI and Google ADK.
 
@@ -488,6 +501,7 @@ export OPENAI_API_KEY="sk-your-key-here"
 - The Spring AI project picks it up through `spring.ai.openai.api-key=${OPENAI_API_KEY}`
 - The Ollama class (04 Nov) runs the model locally and needs **no key**: install Ollama from **https://ollama.com/download**, run `ollama pull mistral`, and keep Ollama running on `http://localhost:11434`. Only `OpenAivsOllama` still needs `OPENAI_API_KEY`, for the cloud side of the comparison
 - The MCP class (12 Nov) starts the filesystem MCP server with `npx`, so it also needs **Node.js 24 or later** from **https://nodejs.org**. `Main.java` is set up for Windows (`cmd /c npx ...`) and reads `D:\mcp-demo-files`: create that folder with a few `.txt` files, or change the path. On macOS / Linux, remove `"cmd", "/c"` and use a path like `/Users/you/mcp-demo-files`
+- The MCP part-2 class (16 Nov) needs the server jar before the client can start it: run `mvn package` inside `custom-mcpserver`, then run the client's `Main` from inside `mcp-filesystem-starter` so the relative path `../custom-mcpserver/target/custom-mcpserver-1.0-SNAPSHOT.jar` resolves. The server itself needs no API key
 - ⚠️ **Never** share or push your API key, and never hardcode it inside a `.java` or `.properties` file
 
 ---
