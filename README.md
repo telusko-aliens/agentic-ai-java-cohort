@@ -411,6 +411,15 @@ agentic-ai-java-cohort/
 │           ├── CourseAssistant.java     # AI Service that answers course questions using the MCP tools
 │           └── FileAssistant.java       # From 12 Nov
 │
+├── 📁 MCP with LangChain4j (part -3) GitHub MCP Server 17-11-2026/
+│   └── github-mcpserver/                # Spring Boot app using the GitHub MCP server as an MCP client (LangChain4j Spring Boot starter)
+│       ├── src/main/java/com/telusko/githubmcpserver/
+│       │   ├── config/McpConfig.java    # StdioMcpTransport (npx server-github + token env), tool filter, tool-result truncation
+│       │   ├── config/MemoryConfig.java # ChatMemoryProvider: 20-message window per user
+│       │   ├── agent/GithubAgent.java   # @AiService returning Result<String>, with @MemoryId per user
+│       │   └── web/GithubController.java  # POST /api/mcp/ask, GET /api/mcp/tools, POST /api/mcp/trace (tool calls + token usage)
+│       └── src/main/resources/application.properties  # ${GITHUB_PERSONAL_ACCESS_TOKEN}, ${OPENAI_API_KEY}, npx command
+│
 ├── 📄 .gitignore
 └── 📄 README.md
 ```
@@ -431,6 +440,7 @@ agentic-ai-java-cohort/
 | 12 | `Tool Calling with LangChain4j (part -2) 11-11-2026` | Letting `AiServices` run the tool loop: a date-time tool with `@Tool` and `@P` so the model never guesses the current time, first in plain Java and then in a Spring Boot 4 app with the AI Service as a bean behind a REST endpoint |
 | 13 | `MCP with LangChain4j 12-11-2026` | Using an existing MCP server from Java: starting the filesystem MCP server over stdio, listing the tools it exposes, and handing them to an AI Service through `McpToolProvider` so the model can read local files |
 | 14 | `MCP with LangChain4j (part -2) 16-11-2026` | Building your own MCP server in Java with the MCP Java SDK: defining tools with JSON input schemas, returning `CallToolResult`, packaging it as a jar, and connecting to it from the LangChain4j client so an AI Service can answer course questions through it |
+| 15 | `MCP with LangChain4j (part -3) GitHub MCP Server 17-11-2026` | Connecting a Spring Boot app to a real third-party MCP server (GitHub): passing a token to the server through its environment, exposing only the tools you need with `filterToolNames`, truncating large tool results, per-user chat memory, and tracing which tools the model called |
 
 > 📌 **A new folder is added after every class** as the course moves through memory, RAG, tool calling, MCP, agent design, LangChain4j, Spring AI and Google ADK.
 
@@ -502,6 +512,7 @@ export OPENAI_API_KEY="sk-your-key-here"
 - The Ollama class (04 Nov) runs the model locally and needs **no key**: install Ollama from **https://ollama.com/download**, run `ollama pull mistral`, and keep Ollama running on `http://localhost:11434`. Only `OpenAivsOllama` still needs `OPENAI_API_KEY`, for the cloud side of the comparison
 - The MCP class (12 Nov) starts the filesystem MCP server with `npx`, so it also needs **Node.js 24 or later** from **https://nodejs.org**. `Main.java` is set up for Windows (`cmd /c npx ...`) and reads `D:\mcp-demo-files`: create that folder with a few `.txt` files, or change the path. On macOS / Linux, remove `"cmd", "/c"` and use a path like `/Users/you/mcp-demo-files`
 - The MCP part-2 class (16 Nov) needs the server jar before the client can start it: run `mvn package` inside `custom-mcpserver`, then run the client's `Main` from inside `mcp-filesystem-starter` so the relative path `../custom-mcpserver/target/custom-mcpserver-1.0-SNAPSHOT.jar` resolves. The server itself needs no API key
+- The GitHub MCP class (17 Nov) also needs a **GitHub personal access token** in `GITHUB_PERSONAL_ACCESS_TOKEN`. Create one at **https://github.com/settings/tokens** with only the access you need. Read-only is enough unless you try `create_issue`. It starts the server with `npx.cmd` (Windows); on macOS / Linux, set `telusko.mcp.npx=npx` in `application.properties`. Note that npm marks `@modelcontextprotocol/server-github` as archived and unmaintained; it still runs for this demo, and GitHub's own server lives at **https://github.com/github/github-mcp-server**
 - ⚠️ **Never** share or push your API key, and never hardcode it inside a `.java` or `.properties` file
 
 ---
