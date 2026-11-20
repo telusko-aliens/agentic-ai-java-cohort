@@ -420,6 +420,17 @@ agentic-ai-java-cohort/
 │       │   └── web/GithubController.java  # POST /api/mcp/ask, GET /api/mcp/tools, POST /api/mcp/trace (tool calls + token usage)
 │       └── src/main/resources/application.properties  # ${GITHUB_PERSONAL_ACCESS_TOKEN}, ${OPENAI_API_KEY}, npx command
 │
+├── 📁 RAG with LangChain4j (part - 2) 19-11-2026/
+│   └── rag-app-lc4j-springboot/         # RAG in Spring Boot with LangChain4j: local embeddings + PGVector (or in-memory) store
+│       ├── src/main/java/com/telusko/
+│       │   ├── config/RagConfig.java    # ChatModel, BGE-small embedding model (runs in the JVM), embedding store, ingestor, ContentRetriever, Assistant
+│       │   ├── service/RagService.java  # @PostConstruct: load docs/*.txt, split, embed and store them at startup
+│       │   ├── assistant/Assistant.java # AI Service: answer ONLY from the retrieved context
+│       │   └── web/RagController.java   # GET /api-rag/ask?question=
+│       └── src/main/resources/
+│           ├── application.properties   # rag.store=pgvector|memory, PGVector connection, docker run command
+│           └── docs/                    # Sample documents for the demo (made-up course FAQ and syllabus)
+│
 ├── 📄 .gitignore
 └── 📄 README.md
 ```
@@ -441,6 +452,7 @@ agentic-ai-java-cohort/
 | 13 | `MCP with LangChain4j 12-11-2026` | Using an existing MCP server from Java: starting the filesystem MCP server over stdio, listing the tools it exposes, and handing them to an AI Service through `McpToolProvider` so the model can read local files |
 | 14 | `MCP with LangChain4j (part -2) 16-11-2026` | Building your own MCP server in Java with the MCP Java SDK: defining tools with JSON input schemas, returning `CallToolResult`, packaging it as a jar, and connecting to it from the LangChain4j client so an AI Service can answer course questions through it |
 | 15 | `MCP with LangChain4j (part -3) GitHub MCP Server 17-11-2026` | Connecting a Spring Boot app to a real third-party MCP server (GitHub): passing a token to the server through its environment, exposing only the tools you need with `filterToolNames`, truncating large tool results, per-user chat memory, and tracing which tools the model called |
+| 16 | `RAG with LangChain4j (part - 2) 19-11-2026` | A complete RAG app in Spring Boot: ingesting text files (split, embed, store) at startup, a local BGE-small embedding model with no API key, PGVector or in-memory as the vector store, `EmbeddingStoreContentRetriever` with `maxResults` and `minScore`, and an AI Service that answers only from the retrieved context |
 
 > 📌 **A new folder is added after every class** as the course moves through memory, RAG, tool calling, MCP, agent design, LangChain4j, Spring AI and Google ADK.
 
@@ -513,6 +525,7 @@ export OPENAI_API_KEY="sk-your-key-here"
 - The MCP class (12 Nov) starts the filesystem MCP server with `npx`, so it also needs **Node.js 24 or later** from **https://nodejs.org**. `Main.java` is set up for Windows (`cmd /c npx ...`) and reads `D:\mcp-demo-files`: create that folder with a few `.txt` files, or change the path. On macOS / Linux, remove `"cmd", "/c"` and use a path like `/Users/you/mcp-demo-files`
 - The MCP part-2 class (16 Nov) needs the server jar before the client can start it: run `mvn package` inside `custom-mcpserver`, then run the client's `Main` from inside `mcp-filesystem-starter` so the relative path `../custom-mcpserver/target/custom-mcpserver-1.0-SNAPSHOT.jar` resolves. The server itself needs no API key
 - The GitHub MCP class (17 Nov) also needs a **GitHub personal access token** in `GITHUB_PERSONAL_ACCESS_TOKEN`. Create one at **https://github.com/settings/tokens** with only the access you need. Read-only is enough unless you try `create_issue`. It starts the server with `npx.cmd` (Windows); on macOS / Linux, set `telusko.mcp.npx=npx` in `application.properties`. Note that npm marks `@modelcontextprotocol/server-github` as archived and unmaintained; it still runs for this demo, and GitHub's own server lives at **https://github.com/github/github-mcp-server**
+- The RAG part-2 class (19 Nov) uses PGVector by default (`rag.store=pgvector`), so start the database first with Docker: `docker run -d --name pgvector -p 5433:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=ragdb pgvector/pgvector:pg16`. No Docker? Set `rag.store=memory` in `application.properties` and it runs with an in-memory store. Embeddings are computed locally, so only the chat side needs `OPENAI_API_KEY`
 - ⚠️ **Never** share or push your API key, and never hardcode it inside a `.java` or `.properties` file
 
 ---
